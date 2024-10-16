@@ -15,6 +15,7 @@ const Navbar = () => {
             .catch(error => console.log('Error during logout:', error));
     }
 
+
     return (
         <div className="flex justify-between px-4 py-3 md:px-6 md:py-5">
             <Link to={'/'} className="flex items-center gap-2">
@@ -24,10 +25,12 @@ const Navbar = () => {
 
             <div className="flex gap-3 items-center">
 
-                <Link to="/">
-                    <img src="/heart.png" alt="favourite-icon" />
+                <Link className="relative" to="/">
+                    <img  src="/heart.png" alt="favourite-icon" />
+                    <span className="font-bold absolute mt-[-60px] ml-[40px]">0</span>
                 </Link>
-                <Button text="Submit Website"></Button>
+
+                <Button to={"/submit"} text="Submit Website"></Button>
 
                 {user ? (
                     <div className="dropdown dropdown-end">
@@ -43,7 +46,7 @@ const Navbar = () => {
                         </ul>
                     </div>
                 ) : (
-                    <Link to={'/signup'} className={"btn border-none bg-[#434346] hover:bg-[#151518] text-white"}>Sign Up</Link>
+                    <Link to={'/signup'} className={"btn-sm md:btn border-none bg-[#434346] hover:bg-[#151518] text-white "}>Sign Up</Link>
                 )}
 
             </div>

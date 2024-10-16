@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Card from "../../../components/Card";
 import { Link } from "react-router-dom";
 
 const AllList = () => {
@@ -17,36 +18,18 @@ const AllList = () => {
 
     return (
         <section>
+            <div className="flex justify-between items-center mb-5 px-3 text-white">
+                <h3 className="text-xl">Featured List</h3>
+                <Link to={'/category'} className={"btn-sm md:btn border-none bg-[#434346] hover:bg-[#151518] text-white "}>View All</Link>
+            </div>
             <div className="grid grid-cols-1 p-2 md:grid-cols-4 gap-5">
                 {websites.map(website => (
-                    <div key={website?.id} className="card bg-[#1E1F21]">
-                        <figure className="bg-[#292929]">
-                            <img
-                                className="w-full pt-4 pl-4"
-                                src={website?.image}
-                                alt="website-image" />
-                        </figure>
-                        <div className="p-4 text-white space-y-3">
-                            <div className="flex justify-between">
-                                <div className="flex items-center gap-2">
-                                    <div>
-                                        <img className="w-[50px] rounded-full" src={website.logo} alt="logo" />
-                                    </div>
-                                    <div>
-                                        <h2 className="text-mdl font-semibold">{website?.title}</h2>
-                                        <Link className="text-xs">{website?.websiteURL}</Link>
-                                    </div>
-                                </div>
-                                <div>
-                                    <img src="/heart.png" alt="heart" />
-                                </div>
-                            </div>
-
-                            <p className="badge border-none p-3 text-white bg-[#292929]">{website.websiteCategory}</p>
-                            <p>{website.shortDescription}</p>
-
-                        </div>
-                    </div>
+                    <Card
+                        key={website?.id}
+                        website={website}
+                        className="card bg-[#1E1F21]"
+                    >
+                    </Card>
                 ))}
             </div>
         </section>
