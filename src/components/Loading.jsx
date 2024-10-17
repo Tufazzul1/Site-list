@@ -2,7 +2,7 @@
 
 const Loading = () => {
     return (
-        <div>
+        <div className="min-h-screen flex justify-center items-center text-white">
             <span className="loading loading-dots loading-lg"></span>
         </div>
     );

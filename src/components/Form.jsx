@@ -2,11 +2,13 @@ import PropTypes from "prop-types";
 import Button from "../shared/Button";
 import useAuth from "../hooks/useAuth";
 import { useState } from "react";
+import useAxios from "../hooks/useAxios";
 
 const Form = ({ data, isUpdate }) => {
 
     const [copied, setCopied] = useState(false);
-    const {user} = useAuth();
+    const { user } = useAuth();
+    const axiosPublic = useAxios();
 
     const handleCopy = () => {
         navigator.clipboard.writeText("hellosalehahmed01@gmail.com").then(() => {
@@ -36,11 +38,11 @@ const Form = ({ data, isUpdate }) => {
 
     const formSubmit = async (e) => {
         e.preventDefault();
-        const currentDate = new Date().toISOString(); 
+        const currentDate = new Date().toISOString();
 
         const formDataWithDate = {
             ...formData,
-            date: currentDate, 
+            date: currentDate,
             email: user?.email
         };
 
@@ -48,10 +50,18 @@ const Form = ({ data, isUpdate }) => {
 
         if (isUpdate) {
             console.log("Updating website:", formDataWithDate);
-            // Add the update logic here
+
         } else {
-            console.log("Adding new website:", formDataWithDate);
-            // Add the logic for adding new data here
+            axiosPublic.post('/submitedWebsite', formDataWithDate)
+                .then(response => {
+                    // console.log(response.data);
+                    if (response.data.insertedId) {
+                        console.log("Website submited successfully", response)
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         }
     };
 
@@ -71,20 +81,20 @@ const Form = ({ data, isUpdate }) => {
                             required
                             value={formData.name}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border-none bg-[#161619] placeholder:text-[#434346] rounded-md outline-none hover:bg-[#434346] placeholder:hover:text-gray-400"
+                            className="w-full text-white px-3 py-2 border-none bg-[#161619] placeholder:text-[#434346] rounded-md outline-none hover:bg-[#434346] placeholder:hover:text-gray-400"
                             placeholder="Enter the name of your website"
-                            
+
                         />
                     </div>
                     <div className="w-full">
                         <label className="block mb-1 text-white">Website Link (URL)</label>
                         <input
-                            type="text"
+                            type="url"
                             name="link"
                             required
                             value={formData.link}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border-none bg-[#161619] placeholder:text-[#434346] rounded-md outline-none hover:bg-[#434346] placeholder:hover:text-gray-400"
+                            className="w-full text-white px-3 py-2 border-none bg-[#161619] placeholder:text-[#434346] rounded-md outline-none hover:bg-[#434346] placeholder:hover:text-gray-400"
                             placeholder="https://example.com"
                         />
                     </div>
@@ -95,7 +105,7 @@ const Form = ({ data, isUpdate }) => {
                             value={formData.category}
                             required
                             onChange={handleInputChange}
-                            className="border-none text-white bg-[#161619] h-[38px] w-full px-2 py-1 md:px-4 rounded-lg"
+                            className="border-none text-white bg-[#161619] h-[38px] w-full px-2 py-1 md:px-4 rounded-lg hover:bg-[#434346]"
                         >
                             <option value="Design">Design</option>
                             <option value="Technology">Technology</option>
@@ -111,7 +121,7 @@ const Form = ({ data, isUpdate }) => {
                             value={formData.subCategory}
                             onChange={handleInputChange}
                             required
-                            className="border-none text-white bg-[#161619] h-[38px] w-full px-2 py-1 md:px-4 rounded-lg"
+                            className="border-none text-white bg-[#161619] h-[38px] w-full px-2 py-1 md:px-4 rounded-lg hover:bg-[#434346]"
                         >
                             <option value="Design Tools">Design Tools</option>
                             <option value="Icons">Icons</option>

@@ -1,20 +1,25 @@
 import { useEffect, useState } from "react";
 import Card from "../../../components/Card";
 import { Link } from "react-router-dom";
+import useAxios from "../../../hooks/useAxios";
 
 const AllList = () => {
 
     const [websites, setWebsites] = useState([]);
+    const axiosPublic = useAxios();
 
     useEffect(() => {
-        fetch('/data.json')
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                setWebsites(data);
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }, []);
+        const fetchData = async () => {
+            try {
+                const response = await axiosPublic.get(`/allSites`);
+                setWebsites(response.data);
+
+            } catch (error) {
+                console.log(error)
+            }
+        };
+        fetchData();
+    }, [axiosPublic]);
 
     return (
         <section>
@@ -25,7 +30,7 @@ const AllList = () => {
             <div className="grid grid-cols-1 p-2 md:grid-cols-4 gap-5">
                 {websites.map(website => (
                     <Card
-                        key={website?.id}
+                        key={website?._id}
                         website={website}
                         className="card bg-[#1E1F21]"
                     >
