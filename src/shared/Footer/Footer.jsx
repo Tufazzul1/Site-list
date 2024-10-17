@@ -8,7 +8,7 @@ const Footer = () => {
             <h2 className="text-3xl md:text-4xl font-semibold">See More Website List by Category</h2>
             <p>Explore our comprehensive collection of websites categorized for easy browsing. <br /> Discover top websites in design, tech, e-commerce and more </p>
 
-            <Button text="Browse by Caregory"></Button>
+            <Button to={'/category'} text="Browse by Caregory"></Button>
 
         </footer>
 

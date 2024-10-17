@@ -7,6 +7,7 @@ import Profile from "../pages/Profile/Profile";
 import SubmitPage from "../pages/Submit/SubmitPage";
 import CategoryPage from "../pages/CategoryPage/CategoryPage";
 import SubCategory from "../pages/SubCategory/SubCategory";
+import PrivateRoute from "./PrivateRoute";
 
 
 
@@ -22,11 +23,11 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/submit",
-                element: <SubmitPage></SubmitPage>
+                element: <PrivateRoute><SubmitPage></SubmitPage></PrivateRoute>
             },
             {
                 path: "/category",
-                element: <CategoryPage></CategoryPage>
+                element: <PrivateRoute><CategoryPage></CategoryPage></PrivateRoute>
             },
             {
                 path: "/subCategory",
@@ -38,7 +39,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/profile",
-                element: <Profile></Profile>
+                element: <PrivateRoute><Profile></Profile></PrivateRoute>
             },
         ]
     },

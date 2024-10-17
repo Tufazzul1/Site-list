@@ -25,9 +25,9 @@ const Navbar = () => {
 
             <div className="flex gap-3 items-center">
 
-                <Link className="relative" to="/">
+                <Link className="relative" to="/profile">
                     <img  src="/heart.png" alt="favourite-icon" />
-                    <span className="font-bold absolute mt-[-60px] ml-[40px]">0</span>
+                    <span className="font-bold text-white absolute mt-[-60px] ml-[40px]">0</span>
                 </Link>
 
                 <Button to={"/submit"} text="Submit Website"></Button>
@@ -39,7 +39,7 @@ const Navbar = () => {
                                 <img alt="User-avatar" src={user?.photoURL || ""} />
                             </div>
                         </div>
-                        <ul tabIndex={0} className="menu menu-sm dropdown-content rounded-md mt-3 z-[100] p-2 shadow bg-[#434346] ">
+                        <ul tabIndex={0} className="menu menu-sm dropdown-content rounded-md mt-3 z-[100] p-2 shadow bg-[#434346] gap-1">
                             <li><Link to={'/profile'} className="btn btn-sm px-4 bg-white text-black hover:bg-[#434346] hover:text-white">Profile</Link></li>
                             <li><Button text="Log Out" onClick={handleLogOut} className='btn-sm w-24'></Button></li>
 

@@ -95,7 +95,7 @@ const Form = ({ data, isUpdate }) => {
                             value={formData.category}
                             required
                             onChange={handleInputChange}
-                            className="border-none bg-[#161619] h-[38px] w-full px-2 py-1 md:px-4 rounded-lg"
+                            className="border-none text-white bg-[#161619] h-[38px] w-full px-2 py-1 md:px-4 rounded-lg"
                         >
                             <option value="Design">Design</option>
                             <option value="Technology">Technology</option>
@@ -111,7 +111,7 @@ const Form = ({ data, isUpdate }) => {
                             value={formData.subCategory}
                             onChange={handleInputChange}
                             required
-                            className="border-none bg-[#161619] h-[38px] w-full px-2 py-1 md:px-4 rounded-lg"
+                            className="border-none text-white bg-[#161619] h-[38px] w-full px-2 py-1 md:px-4 rounded-lg"
                         >
                             <option value="Design Tools">Design Tools</option>
                             <option value="Icons">Icons</option>
@@ -125,7 +125,7 @@ const Form = ({ data, isUpdate }) => {
                             name="description"
                             value={formData.description}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border-none bg-[#161619] placeholder:text-[#434346] rounded-md outline-none hover:bg-[#434346] placeholder:hover:text-gray-400 h-[100px]"
+                            className="w-full px-3 py-2 border-none text-white bg-[#161619] placeholder:text-[#434346] rounded-md outline-none hover:bg-[#434346] placeholder:hover:text-gray-400 h-[100px]"
                             placeholder="Briefly describe your website, its purpose, and the target audience."
                         />
                     </div>
