@@ -8,6 +8,7 @@ import SubmitPage from "../pages/Submit/SubmitPage";
 import CategoryPage from "../pages/CategoryPage/CategoryPage";
 import SubCategory from "../pages/SubCategory/SubCategory";
 import PrivateRoute from "./PrivateRoute";
+import UpdateWebsite from "../pages/UpdateWebsite/UpdateWebsite";
 
 
 
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
             {
                 path: "/submit",
                 element: <PrivateRoute><SubmitPage></SubmitPage></PrivateRoute>
+            },
+            {
+                path: "/update/:id",
+                element: <PrivateRoute><UpdateWebsite></UpdateWebsite></PrivateRoute>
             },
             {
                 path: "/category",

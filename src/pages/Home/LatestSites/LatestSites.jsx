@@ -1,18 +1,19 @@
-import { useEffect, useState } from "react";
 import Card from "../../../components/Card";
+import { useEffect, useState } from "react";
 import useAxios from "../../../hooks/useAxios";
 import Button from "../../../shared/Button";
 
-const AllList = () => {
 
-    const [websites, setWebsites] = useState([]);
+const LatestSites = () => {
+
+    const [latestSites, setLatestSites] = useState([]);
     const axiosPublic = useAxios();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axiosPublic.get(`/allSites`);
-                setWebsites(response.data);
+                const response = await axiosPublic.get(`/latest-sites`);
+                setLatestSites(response.data);
 
             } catch (error) {
                 console.log(error)
@@ -24,11 +25,11 @@ const AllList = () => {
     return (
         <section>
             <div className="flex justify-between items-center mb-5 px-3 text-white">
-                <h3 className="text-xl">Featured List</h3>
+                <h3 className="text-xl">New List</h3>
                 <Button to={'/category'} text="View All" />
             </div>
             <div className="grid grid-cols-1 p-2 md:grid-cols-4 gap-5">
-                {websites.map(website => (
+                {latestSites.map(website => (
                     <Card
                         key={website?._id}
                         website={website}
@@ -42,4 +43,4 @@ const AllList = () => {
     );
 };
 
-export default AllList;
+export default LatestSites;

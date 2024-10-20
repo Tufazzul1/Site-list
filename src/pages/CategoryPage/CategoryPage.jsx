@@ -12,16 +12,16 @@ const CategoryPage = () => {
             .then(res => res.json())
             .then(data => {
                 setWebsites(data);
-                setOriginalProducts(data); // Save original products for reset on 'All'
+                setOriginalProducts(data);
             })
             .catch(error => console.error('Error fetching data:', error));
     }, []);
 
     const handleCategorySearch = (selectedCategory) => {
-        setActiveCategory(selectedCategory); // Set the active category
+        setActiveCategory(selectedCategory);
 
         if (selectedCategory === "All") {
-            setWebsites(originalProducts); // Show all products
+            setWebsites(originalProducts);
         } else {
             const filteredProducts = originalProducts.filter(product =>
                 product.category.toLowerCase() === selectedCategory.toLowerCase()
@@ -92,6 +92,7 @@ const CategoryPage = () => {
                         <Card
                             key={website?.id}
                             website={website}
+                            showHeartIcon={true}
                             className="card bg-[#1E1F21]"
                         />
                     ))}

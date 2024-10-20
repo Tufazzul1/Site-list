@@ -7,6 +7,7 @@ const Profile = () => {
     const { user } = useAuth();
     const [copied, setCopied] = useState(false);
     const [websites, setWebsites] = useState([]);
+    const [favWebsites, setFavWebsites] = useState([]);
 
     const axiosPublic = useAxios();
 
@@ -22,6 +23,17 @@ const Profile = () => {
         fetchData();
     }, [axiosPublic, user]);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axiosPublic.get(`/getFavourite?email=${user?.email}`);
+                setFavWebsites(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
+    }, [axiosPublic, user]);
 
     const handleCopy = () => {
         navigator.clipboard.writeText('hellosalehahmed01@gmail.com').then(() => {
@@ -29,6 +41,25 @@ const Profile = () => {
             setTimeout(() => setCopied(false), 2000);
         });
     };
+
+    const handleDelete = async (websiteId) => {
+        try {
+            const res = await axiosPublic.delete(`/deleteSite/${websiteId}`);
+            console.log('Delete successful:', res);
+            setWebsites((prevWebsites) => prevWebsites.filter(website => website._id !== websiteId));
+        } catch (error) {
+            console.error('Error deleting website:', error);
+        }
+    };
+    // const handleDeleteFavourite = async (websiteId) => {
+    //     try {
+    //         const res = await axiosPublic.delete(`/deleteFavourite/${websiteId}`);
+    //         console.log('Delete successful:', res);
+    //         setFavWebsites((prevWebsites) => prevWebsites.filter(website => website._id !== websiteId));
+    //     } catch (error) {
+    //         console.error('Error deleting website:', error);
+    //     }
+    // };
 
     return (
         <div className="p-4 text-white">
@@ -53,21 +84,33 @@ const Profile = () => {
                         onClick={handleCopy}
                     />
                 </p>
-
                 {copied && <span className="text-green-200 ml-2">Copied!</span>}
-
             </div>
 
             <div className="mt-10">
-                <h3 className="text-xl mb-5 font-semibold">Submited by You</h3>
+                <h3 className="text-xl mb-5 font-semibold">Submitted by You</h3>
                 <div className="grid grid-cols-1 p-2 md:grid-cols-4 gap-5">
                     {websites.map(website => (
                         <Card
                             key={website?._id}
                             website={website}
-                            className="card bg-[#1E1F21]"
-                        >
-                        </Card>
+                            showHeartIcon={false} 
+                            handleDelete={handleDelete}
+                        />
+                    ))}
+                </div>
+            </div>
+
+            <div className="mt-10">
+                <h3 className="text-xl mb-5 font-semibold">Favourite List</h3>
+                <div className="grid grid-cols-1 p-2 md:grid-cols-4 gap-5">
+                    {favWebsites.map(website => (
+                        <Card
+                            key={website?._id}
+                            website={website}
+                            favourite={true}
+                            showHeartIcon={true}
+                        />
                     ))}
                 </div>
             </div>
@@ -76,3 +119,4 @@ const Profile = () => {
 };
 
 export default Profile;
+

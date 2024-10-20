@@ -40,7 +40,7 @@ const Navbar = () => {
                             </div>
                         </div>
                         <ul tabIndex={0} className="menu menu-sm dropdown-content rounded-md mt-3 z-[100] p-2 shadow bg-[#434346] gap-1">
-                            <li><Link to={'/profile'} className="btn btn-sm px-4 bg-white text-black hover:bg-[#434346] hover:text-white">Profile</Link></li>
+                            <li><Link to={'/profile'} className="btn btn-sm px-4 bg-white text-black hover:bg-[#434346] hover:border-none hover:text-white">Profile</Link></li>
                             <li><Button text="Log Out" onClick={handleLogOut} className='btn-sm w-24'></Button></li>
 
                         </ul>
