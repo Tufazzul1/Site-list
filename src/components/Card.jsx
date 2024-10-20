@@ -71,7 +71,9 @@ const Card = ({ website, showHeartIcon, handleDelete, favourite}) => {
                                     </div>
                                 </div>
                                 <ul tabIndex={0} className="menu menu-sm w-[214px] dropdown-content rounded-md mt-3 z-[100] p-2 shadow bg-[#434346] gap-1">
+                                    
                                     <li><Button to={`/update/${_id}`} text="Update Website" className='btn-sm'></Button></li>
+
                                     <li><Button text="Delete Website" onClick={() => handleDelete(_id)} className='btn-sm'></Button></li>
                                 </ul>
                             </div>

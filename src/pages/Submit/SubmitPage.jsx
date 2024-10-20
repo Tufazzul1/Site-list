@@ -2,7 +2,7 @@ import Form from "../../components/Form";
 
 const SubmitPage = () => {
     return (
-        <div className="h-full">
+        <div>
             <Form isUpdate={false} />
         </div>
     );

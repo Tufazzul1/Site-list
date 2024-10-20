@@ -10,12 +10,11 @@ const Update = () => {
     const [data, setData] = useState([]);
     const axiosPublic = useAxios();
 
-
     useEffect(() => {
 
         const fetchData = async () => {
             try {
-                const response = await axiosPublic.put(`/updateSite/${id}`);
+                const response = await axiosPublic.get(`/allSites/${id}`);
                 setData(response.data);
                 console.log(response.data);
 

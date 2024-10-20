@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import Button from "../shared/Button";
 import useAuth from "../hooks/useAuth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
 
 const Form = ({ data, isUpdate }) => {
@@ -29,9 +29,9 @@ const Form = ({ data, isUpdate }) => {
         }
     };
 
-    const handleLogoChange = (e) =>{
+    const handleLogoChange = (e) => {
         const file = e.target.files[0];
-        if(file){
+        if (file) {
             setSelectedLogo(file.name);
         } else {
             setSelectedLogo(null);
@@ -44,44 +44,93 @@ const Form = ({ data, isUpdate }) => {
         : <> Submit your website to be featured in our curated collection of top websites by category. <br /> Increase your visibility and reach a broader audience.</>;
 
     const [formData, setFormData] = useState({
-        name: data ? data.name : "",
-        link: data ? data.link : "",
-        category: data ? data.category : "",
-        subCategory: data ? data.subCategory : "",
-        description: data ? data.description : "",
+        name: "",
+        link: "",
+        category: "",
+        subCategory: "",
+        image: "",
+        logo: "",
+        description: "",
     });
+
+    useEffect(() => {
+        if (data) {
+            setFormData({
+                name: data.name || "",
+                link: data.link || "",
+                category: data.category || "",
+                subCategory: data.subCategory || "",
+                image: data.image || "",
+                logo: data.logo || "",
+                description: data.description || "",
+            });
+        }
+    }, [data]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
+
     const formSubmit = async (e) => {
         e.preventDefault();
-        const currentDate = new Date().toISOString();
 
-        const formDataWithDate = {
-            ...formData,
-            date: currentDate,
-            email: user?.email
-        };
+        // Check if both images are selected (for create case)
+        if (!isUpdate && (!selectedImage || !selectedLogo)) {
+            alert("Please select both a website screenshot and logo.");
+            return;
+        }
 
-        if (isUpdate) {
-            console.log("Updating website:", formDataWithDate);
+        try {
+            const currentDate = new Date().toISOString();
+            let imageUrl = formData.image; 
+            let logoUrl = formData.logo;
 
-        } else {
-            axiosPublic.post('/submitedWebsite', formDataWithDate)
-                .then(response => {
-                    if (response.data.insertedId) {
-                        console.log("Website submited successfully", response);
-                    }
+            // Function to upload an image and return the URL
+            const uploadImage = async (file) => {
+                const formData = new FormData();
+                formData.append("image", file);
+                const response = await axiosPublic.post(`https://api.imgbb.com/1/upload?key=557d7587cd76fc318d8155485ef8b854`, formData);
+                return response.data.data.url;
+            };
 
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+            // If new image/logo is selected, upload and get new URLs
+            if (selectedImage) {
+                imageUrl = await uploadImage(document.querySelector('#image-input').files[0]);
+            }
+            if (selectedLogo) {
+                logoUrl = await uploadImage(document.querySelector('#logo-input').files[0]);
+            }
+
+            // Prepare the form data with image and logo URLs
+            const formDataWithDate = {
+                ...formData,
+                date: currentDate,
+                email: user?.email,
+                image: imageUrl,
+                logo: logoUrl
+            };
+
+            let response;
+            if (isUpdate) {
+                // If it's an update, use PUT method
+                response = await axiosPublic.put(`/updateSite/${data._id}`, formDataWithDate);
+                if (response.status === 200) {
+                    console.log("Website updated successfully", response);
+                }
+            } else {
+                // If it's a new submission, use POST method
+                response = await axiosPublic.post('/submitedWebsite', formDataWithDate);
+                if (response.data.insertedId) {
+                    console.log("Website submitted successfully", response);
+                }
+            }
+        } catch (error) {
+            console.error("Error uploading image or submitting form:", error);
         }
     };
+
 
     return (
         <>
@@ -152,7 +201,7 @@ const Form = ({ data, isUpdate }) => {
                         </div>
                     </div>
 
-                    <div className="flex justify-between gap-3">
+                    <div className="flex justify-between gap-3 flex-col md:flex-row">
 
                         <div className="w-full">
                             <label className="block mb-1 text-white">Website Screenshot (620px - 340px)</label>
@@ -166,7 +215,7 @@ const Form = ({ data, isUpdate }) => {
                             />
                             <label
                                 htmlFor="image-input"
-                                className={`w-full h-[45px] rounded-md bg-[#161619] flex items-center justify-between cursor-pointer text-white px-4 ${selectedImage ? 'text-white' : 'text-[#434346]'
+                                className={`w-full h-[45px] rounded-md bg-[#161619] hover:bg-[#434346] hover:text-gray-400 flex items-center justify-between cursor-pointer text-white pl-4 pr-2 ${selectedImage ? 'text-white' : 'text-[#434346]'
                                     }`}
                             >
                                 {selectedImage ? selectedImage : "Choose a file..."}
@@ -186,7 +235,7 @@ const Form = ({ data, isUpdate }) => {
                             />
                             <label
                                 htmlFor="logo-input"
-                                className={`w-full h-[45px] rounded-md bg-[#161619] flex items-center justify-between cursor-pointer text-white px-4 ${selectedLogo ? 'text-white' : 'text-[#434346]'
+                                className={`w-full h-[45px] rounded-md bg-[#161619] flex items-center  hover:bg-[#434346] hover:text-gray-400 justify-between cursor-pointer text-white pl-4 pr-2 ${selectedLogo ? 'text-white' : 'text-[#434346]'
                                     }`}
                             >
                                 {selectedLogo ? selectedLogo : "Choose a file..."}
