@@ -73,6 +73,62 @@ const Form = ({ data, isUpdate }) => {
     };
 
 
+    // const formSubmit = async (e) => {
+    //     e.preventDefault();
+
+    //     // Check if both images are selected (for create case)
+    //     if (!isUpdate && (!selectedImage || !selectedLogo)) {
+    //         alert("Please select both a website screenshot and logo.");
+    //         return;
+    //     }
+
+    //     try {
+    //         const currentDate = new Date().toISOString();
+    //         let imageUrl = formData.image; 
+    //         let logoUrl = formData.logo;
+
+    //         // Function to upload an image and return the URL
+    //         const uploadImage = async (file) => {
+    //             const formData = new FormData();
+    //             formData.append("image", file);
+    //             const response = await axiosPublic.post(`https://api.imgbb.com/1/upload?key=557d7587cd76fc318d8155485ef8b854`, formData);
+    //             return response.data.data.url;
+    //         };
+
+    //         // If new image/logo is selected, upload and get new URLs
+    //         if (selectedImage) {
+    //             imageUrl = await uploadImage(document.querySelector('#image-input').files[0]);
+    //         }
+    //         if (selectedLogo) {
+    //             logoUrl = await uploadImage(document.querySelector('#logo-input').files[0]);
+    //         }
+
+    //         // Prepare the form data with image and logo URLs
+    //         const formDataWithDate = {
+    //             ...formData,
+    //             date: currentDate,
+    //             email: user?.email,
+    //             image: imageUrl,
+    //             logo: logoUrl
+    //         };
+
+    //         let response;
+    //         if (isUpdate) {
+    //             response = await axiosPublic.put(`/updateSite/${data._id}`, formDataWithDate);
+    //             if (response.status === 200) {
+    //                 console.log("Website updated successfully", response);
+    //             }
+    //         } else {
+    //             response = await axiosPublic.post('/submitedWebsite', formDataWithDate);
+    //             if (response.data.insertedId) {
+    //                 console.log("Website submitted successfully", response);
+    //             }
+    //         }
+    //     } catch (error) {
+    //         console.error("Error uploading image or submitting form:", error);
+    //     }
+    // };
+
     const formSubmit = async (e) => {
         e.preventDefault();
 
@@ -84,15 +140,24 @@ const Form = ({ data, isUpdate }) => {
 
         try {
             const currentDate = new Date().toISOString();
-            let imageUrl = formData.image; 
+            let imageUrl = formData.image;
             let logoUrl = formData.logo;
 
             // Function to upload an image and return the URL
             const uploadImage = async (file) => {
                 const formData = new FormData();
                 formData.append("image", file);
-                const response = await axiosPublic.post(`https://api.imgbb.com/1/upload?key=557d7587cd76fc318d8155485ef8b854`, formData);
-                return response.data.data.url;
+
+                try {
+                    const response = await axiosPublic.post(
+                        `https://api.imgbb.com/1/upload?key=557d7587cd76fc318d8155485ef8b854`,
+                        formData
+                    );
+                    return response.data.data.url;
+                } catch (error) {
+                    console.error("Image upload failed:", error.response?.data);
+                    throw error;
+                }
             };
 
             // If new image/logo is selected, upload and get new URLs
@@ -114,22 +179,26 @@ const Form = ({ data, isUpdate }) => {
 
             let response;
             if (isUpdate) {
-                // If it's an update, use PUT method
                 response = await axiosPublic.put(`/updateSite/${data._id}`, formDataWithDate);
                 if (response.status === 200) {
                     console.log("Website updated successfully", response);
                 }
             } else {
-                // If it's a new submission, use POST method
                 response = await axiosPublic.post('/submitedWebsite', formDataWithDate);
-                if (response.data.insertedId) {
+                if (response.status === 200) {
                     console.log("Website submitted successfully", response);
                 }
             }
+
         } catch (error) {
-            console.error("Error uploading image or submitting form:", error);
+            if (error.response && error.response.status === 400) {
+                alert(error.response.data.message);
+            } else {
+                console.error("Error submitting form:", error);
+            }
         }
     };
+
 
 
     return (

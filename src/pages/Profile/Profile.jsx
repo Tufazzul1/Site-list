@@ -51,15 +51,6 @@ const Profile = () => {
             console.error('Error deleting website:', error);
         }
     };
-    // const handleDeleteFavourite = async (websiteId) => {
-    //     try {
-    //         const res = await axiosPublic.delete(`/deleteFavourite/${websiteId}`);
-    //         console.log('Delete successful:', res);
-    //         setFavWebsites((prevWebsites) => prevWebsites.filter(website => website._id !== websiteId));
-    //     } catch (error) {
-    //         console.error('Error deleting website:', error);
-    //     }
-    // };
 
     return (
         <div className="p-4 text-white">

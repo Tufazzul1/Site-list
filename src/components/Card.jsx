@@ -45,7 +45,7 @@ const Card = ({ website, showHeartIcon, handleDelete, favourite}) => {
     return (
         <div>
             <figure className="bg-[#292929]">
-                <img className="w-full pt-4 pl-4 object-fill" src={image} alt="website-image" />
+                <img className="w-full pt-4 pl-4 object-fill h-[170px]" src={image} alt="website-image" />
             </figure>
             <div className="p-4 text-white space-y-3">
                 <div className="flex justify-between">
@@ -71,7 +71,7 @@ const Card = ({ website, showHeartIcon, handleDelete, favourite}) => {
                                     </div>
                                 </div>
                                 <ul tabIndex={0} className="menu menu-sm w-[214px] dropdown-content rounded-md mt-3 z-[100] p-2 shadow bg-[#434346] gap-1">
-                                    
+
                                     <li><Button to={`/update/${_id}`} text="Update Website" className='btn-sm'></Button></li>
 
                                     <li><Button text="Delete Website" onClick={() => handleDelete(_id)} className='btn-sm'></Button></li>
