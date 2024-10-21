@@ -24,13 +24,13 @@ const AuthProviders = ({ children }) => {
     }
 
     const signInWithGoogle = () => {
-        setLoading(true)
+        setLoading(true);
         return signInWithPopup(auth, googleProvider)
     }
 
     const logOut = () => {
-        setLoading(true)
-        return signOut(auth)
+        setLoading(true);
+        return signOut(auth);
     }
 
     useEffect(() => {

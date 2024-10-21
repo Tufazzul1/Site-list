@@ -47,7 +47,7 @@ const Form = ({ data, isUpdate }) => {
         name: "",
         link: "",
         category: "",
-        subCategory: "",
+        profession: "",
         image: "",
         logo: "",
         description: "",
@@ -59,7 +59,7 @@ const Form = ({ data, isUpdate }) => {
                 name: data.name || "",
                 link: data.link || "",
                 category: data.category || "",
-                subCategory: data.subCategory || "",
+                profession: data.profession || "",
                 image: data.image || "",
                 logo: data.logo || "",
                 description: data.description || "",
@@ -71,63 +71,6 @@ const Form = ({ data, isUpdate }) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
-
-
-    // const formSubmit = async (e) => {
-    //     e.preventDefault();
-
-    //     // Check if both images are selected (for create case)
-    //     if (!isUpdate && (!selectedImage || !selectedLogo)) {
-    //         alert("Please select both a website screenshot and logo.");
-    //         return;
-    //     }
-
-    //     try {
-    //         const currentDate = new Date().toISOString();
-    //         let imageUrl = formData.image; 
-    //         let logoUrl = formData.logo;
-
-    //         // Function to upload an image and return the URL
-    //         const uploadImage = async (file) => {
-    //             const formData = new FormData();
-    //             formData.append("image", file);
-    //             const response = await axiosPublic.post(`https://api.imgbb.com/1/upload?key=557d7587cd76fc318d8155485ef8b854`, formData);
-    //             return response.data.data.url;
-    //         };
-
-    //         // If new image/logo is selected, upload and get new URLs
-    //         if (selectedImage) {
-    //             imageUrl = await uploadImage(document.querySelector('#image-input').files[0]);
-    //         }
-    //         if (selectedLogo) {
-    //             logoUrl = await uploadImage(document.querySelector('#logo-input').files[0]);
-    //         }
-
-    //         // Prepare the form data with image and logo URLs
-    //         const formDataWithDate = {
-    //             ...formData,
-    //             date: currentDate,
-    //             email: user?.email,
-    //             image: imageUrl,
-    //             logo: logoUrl
-    //         };
-
-    //         let response;
-    //         if (isUpdate) {
-    //             response = await axiosPublic.put(`/updateSite/${data._id}`, formDataWithDate);
-    //             if (response.status === 200) {
-    //                 console.log("Website updated successfully", response);
-    //             }
-    //         } else {
-    //             response = await axiosPublic.post('/submitedWebsite', formDataWithDate);
-    //             if (response.data.insertedId) {
-    //                 console.log("Website submitted successfully", response);
-    //             }
-    //         }
-    //     } catch (error) {
-    //         console.error("Error uploading image or submitting form:", error);
-    //     }
-    // };
 
     const formSubmit = async (e) => {
         e.preventDefault();
@@ -256,16 +199,16 @@ const Form = ({ data, isUpdate }) => {
                         <div className="w-full">
                             <label className="block mb-1 text-white">Sub Category</label>
                             <select
-                                name="subCategory"
-                                value={formData.subCategory}
+                                name="profession"
+                                value={formData.profession}
                                 onChange={handleInputChange}
                                 required
                                 className="border-none text-white bg-[#161619] h-[38px] w-full px-2 py-1 md:px-4 rounded-lg hover:bg-[#434346]"
                             >
-                                <option value="Design Tools">Design Tools</option>
-                                <option value="Icons">Icons</option>
-                                <option value="Graphic Design">Graphic Design</option>
-                                <option value="Templates">Templates</option>
+                                <option value="Your Profession">Your Profession</option>
+                                <option value="Designer">Designer</option>
+                                <option value="Developer">Developer</option>
+                                <option value="Marketer">Marketer</option>
                             </select>
                         </div>
                     </div>

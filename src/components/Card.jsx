@@ -5,7 +5,7 @@ import useAxios from "../hooks/useAxios";
 import { useState } from "react";
 import useAuth from "../hooks/useAuth";
 
-const Card = ({ website, showHeartIcon, handleDelete, favourite}) => {
+const Card = ({ website, showHeartIcon, handleDelete, favourite }) => {
 
     const { _id, image, logo, name, link, category, description } = website;
 
@@ -47,7 +47,7 @@ const Card = ({ website, showHeartIcon, handleDelete, favourite}) => {
             <figure className="bg-[#292929]">
                 <img className="w-full pt-4 pl-4 object-fill h-[170px]" src={image} alt="website-image" />
             </figure>
-            <div className="p-4 text-white space-y-3">
+            <div className="p-4 text-white space-y-3 ">
                 <div className="flex justify-between">
                     <div className="flex items-center gap-2">
                         <div>
@@ -55,7 +55,9 @@ const Card = ({ website, showHeartIcon, handleDelete, favourite}) => {
                         </div>
                         <div>
                             <h2 className="text-mdl font-semibold">{name}</h2>
-                            <Link className="text-xs" to={link} target="blank">{link}</Link>
+                            <p className="text-xs truncate max-w-[150px]">
+                                <Link to={link} target="_blank" className="break-all">{link}</Link>
+                            </p>
                         </div>
                     </div>
                     <div>
@@ -71,10 +73,12 @@ const Card = ({ website, showHeartIcon, handleDelete, favourite}) => {
                                     </div>
                                 </div>
                                 <ul tabIndex={0} className="menu menu-sm w-[214px] dropdown-content rounded-md mt-3 z-[100] p-2 shadow bg-[#434346] gap-1">
-
-                                    <li><Button to={`/update/${_id}`} text="Update Website" className='btn-sm'></Button></li>
-
-                                    <li><Button text="Delete Website" onClick={() => handleDelete(_id)} className='btn-sm'></Button></li>
+                                    <li>
+                                        <Button to={`/update/${_id}`} text="Update Website" className='btn-sm' />
+                                    </li>
+                                    <li>
+                                        <Button text="Delete Website" onClick={() => handleDelete(_id)} className='btn-sm' />
+                                    </li>
                                 </ul>
                             </div>
                         )}
@@ -84,6 +88,7 @@ const Card = ({ website, showHeartIcon, handleDelete, favourite}) => {
                 <p>{description}</p>
             </div>
         </div>
+
     );
 };
 

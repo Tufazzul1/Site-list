@@ -1,32 +1,38 @@
 import { useEffect, useState } from "react";
 import FilterBtn from "../../shared/FilterBtn";
 import Card from "../../components/Card";
+import useAxios from "../../hooks/useAxios";
 
 const CategoryPage = () => {
     const [websites, setWebsites] = useState([]);
     const [originalProducts, setOriginalProducts] = useState([]);
     const [activeCategory, setActiveCategory] = useState("All");
+    const axiosPublic = useAxios();
 
+    // Fetching the data on component mount
     useEffect(() => {
-        fetch('/data.json')
-            .then(res => res.json())
-            .then(data => {
-                setWebsites(data);
-                setOriginalProducts(data);
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }, []);
+        const fetchData = async () => {
+            try {
+                const response = await axiosPublic.get(`/allSites`);
+                setWebsites(response.data);
+                setOriginalProducts(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
+    }, [axiosPublic]);
 
-    const handleCategorySearch = (selectedCategory) => {
-        setActiveCategory(selectedCategory);
-
-        if (selectedCategory === "All") {
+    // Function to handle category filter
+    const handleSearchByCategory = (category) => {
+        setActiveCategory(category);
+        if (category === "All") {
             setWebsites(originalProducts);
         } else {
-            const filteredProducts = originalProducts.filter(product =>
-                product.category.toLowerCase() === selectedCategory.toLowerCase()
+            const filteredWebsites = originalProducts.filter(
+                (website) => website.category === category
             );
-            setWebsites(filteredProducts);
+            setWebsites(filteredWebsites);
         }
     };
 
@@ -36,52 +42,45 @@ const CategoryPage = () => {
 
             <div className="flex">
                 <div className="flex gap-2 items-center">
-                    <FilterBtn 
-                        className="hover:bg-[#151518]" 
-                        text="All" 
-                        isActive={activeCategory === "All"}
-                        onClick={() => handleCategorySearch("All")} 
+                    <FilterBtn
+                        className={`hover:bg-[#151518] ${activeCategory === 'All' ? 'bg-white  text-[#151518]' : 'bg-[#292929] text-white'}`}
+                        text="All"
+                        onClick={() => handleSearchByCategory("All")}
                     />
-                    <FilterBtn 
-                        className="hover:bg-[#151518]" 
-                        text="Featured" 
-                        isActive={activeCategory === "Featured"}
-                        onClick={() => handleCategorySearch("Featured")} 
+                    <FilterBtn
+                        className={`hover:bg-[#151518] ${activeCategory === 'Featured' ? 'bg-white text-[#151518]' : 'bg-[#292929] text-white'}`}
+                        text="Featured"
+                        onClick={() => handleSearchByCategory("Featured")}
                     />
-                    <FilterBtn 
-                        className="hover:bg-[#151518]" 
-                        text="New" 
-                        isActive={activeCategory === "New"}
-                        onClick={() => handleCategorySearch("New")} 
+                    <FilterBtn
+                        className={`hover:bg-[#151518] ${activeCategory === 'New' ? 'bg-white  text-[#151518]' : 'bg-[#292929] text-white'}`}
+                        text="New"
+                        onClick={() => handleSearchByCategory("New")}
                     />
                 </div>
 
-                <div className="divider divider-horizontal"></div>
+                <div className="divider divider-horizontal divider-warning"></div>
 
                 <div className="flex gap-2 items-center">
-                    <FilterBtn 
-                        className="hover:bg-[#151518]" 
-                        text="Technology" 
-                        isActive={activeCategory === "Technology"}
-                        onClick={() => handleCategorySearch("Technology")} 
+                    <FilterBtn
+                        className={`hover:bg-[#151518] ${activeCategory === 'Technology' ? 'bg-white  text-[#151518]' : 'bg-[#151518] text-white'}`}
+                        text="Technology"
+                        onClick={() => handleSearchByCategory("Technology")}
                     />
-                    <FilterBtn 
-                        className="hover:bg-[#151518]" 
-                        text="E-commerce" 
-                        isActive={activeCategory === "E-commerce"}
-                        onClick={() => handleCategorySearch("E-commerce")} 
+                    <FilterBtn
+                        className={`hover:bg-[#151518] ${activeCategory === 'E-commerce' ? 'bg-white  text-[#151518]' : 'bg-[#151518] text-white'}`}
+                        text="E-commerce"
+                        onClick={() => handleSearchByCategory("E-commerce")}
                     />
-                    <FilterBtn 
-                        className="hover:bg-[#151518]" 
-                        text="Travel" 
-                        isActive={activeCategory === "Travel"}
-                        onClick={() => handleCategorySearch("Travel")} 
+                    <FilterBtn
+                        className={`hover:bg-[#151518] ${activeCategory === 'Travel' ? 'bg-white  text-[#151518]' : 'bg-[#151518] text-white'}`}
+                        text="Travel"
+                        onClick={() => handleSearchByCategory("Travel")}
                     />
-                    <FilterBtn 
-                        className="hover:bg-[#151518]" 
-                        text="Education" 
-                        isActive={activeCategory === "Education"}
-                        onClick={() => handleCategorySearch("Education")} 
+                    <FilterBtn
+                        className={`hover:bg-[#151518] ${activeCategory === 'Education' ? 'bg-white  text-[#151518]' : 'bg-[#151518] text-white'}`}
+                        text="Education"
+                        onClick={() => handleSearchByCategory("Education")}
                     />
                 </div>
             </div>
@@ -90,7 +89,7 @@ const CategoryPage = () => {
                 <div className="grid grid-cols-1 p-2 md:grid-cols-4 gap-5">
                     {websites.map(website => (
                         <Card
-                            key={website?.id}
+                            key={website?._id}
                             website={website}
                             showHeartIcon={true}
                             className="card bg-[#1E1F21]"

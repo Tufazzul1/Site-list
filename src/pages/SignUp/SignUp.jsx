@@ -3,6 +3,7 @@ import Button from "../../shared/Button";
 import useAuth from "../../hooks/useAuth";
 
 const SignUp = () => {
+
     const { signInWithGoogle } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
