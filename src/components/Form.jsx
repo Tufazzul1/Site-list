@@ -79,7 +79,7 @@ const Form = ({ data, isUpdate }) => {
         setFormData({ ...formData, [name]: value });
     };
 
-    const formSubmit = async (e) => {
+const formSubmit = async (e) => {
         e.preventDefault();
 
         // Check if both images are selected (for create case)

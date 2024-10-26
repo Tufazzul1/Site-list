@@ -49,7 +49,7 @@ const AllLead = () => {
         <section className="my-10">
 
             <div className="flex justify-between">
-                <h2 className="text-md font-bold">All Lead</h2>
+                <h2 className="text-xl font-semibold">All Lead</h2>
                 <button onClick={exportToExcel} className="text-md font-bold">Export</button>
             </div>
 

@@ -46,8 +46,8 @@ const Card = ({ website, showHeartIcon, handleDelete, favourite, handleDeleteFav
 
 
     return (
-        <div>
-            <figure className="bg-[#292929]">
+        <div className="bg-[#1E1F21] rounded-lg">
+            <figure className="bg-[#292929] rounded-lg">
                 <img className="w-full pt-4 pl-4 object-fill h-[170px]" src={image} alt="website-image" />
             </figure>
             <div className="p-4 text-white space-y-3 ">
