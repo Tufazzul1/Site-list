@@ -1,10 +1,14 @@
 import { Link } from "react-router-dom";
 import Button from "../Button";
 import useAuth from "../../hooks/useAuth";
+import { useEffect, useState } from "react";
+import useAxios from "../../hooks/useAxios";
 
 const Navbar = () => {
 
     const { user, logOut } = useAuth();
+    const [FavWebsites, setFavWebsites] = useState([]);
+    const axiosPublic = useAxios();
 
     const handleLogOut = () => {
 
@@ -14,6 +18,18 @@ const Navbar = () => {
             })
             .catch(error => console.log('Error during logout:', error));
     }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axiosPublic.get(`/getFavourite?email=${user?.email}`);
+                setFavWebsites(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
+    }, [axiosPublic, user]);
 
 
     return (
@@ -26,8 +42,8 @@ const Navbar = () => {
             <div className="flex gap-3 items-center">
 
                 <Link className="relative" to="/profile">
-                    <img  src="/heart.png" alt="favourite-icon" />
-                    <span className="font-bold text-white absolute mt-[-60px] ml-[40px]">0</span>
+                    <img src="/heart.png" alt="favourite-icon" />
+                    <span className="font-bold text-white absolute mt-[-60px] ml-[40px]">{FavWebsites?.length || ""}</span>
                 </Link>
 
                 <Button to={"/submit"} text="Submit Website"></Button>

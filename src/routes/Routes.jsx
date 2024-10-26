@@ -9,6 +9,10 @@ import CategoryPage from "../pages/CategoryPage/CategoryPage";
 import SubCategory from "../pages/SubCategory/SubCategory";
 import PrivateRoute from "./PrivateRoute";
 import UpdateWebsite from "../pages/UpdateWebsite/UpdateWebsite";
+import AdminDashboard from "../layout/AdminDashboard/AdminDashboard";
+import DashboardHome from "../pages/Dashboard/DashboardHome";
+import AllWebsite from "../pages/Dashboard/AllWebsite";
+import AllLead from "../pages/Dashboard/AllLead";
 
 
 
@@ -48,4 +52,23 @@ export const router = createBrowserRouter([
             },
         ]
     },
+    {
+        path: "dashboard",
+        element: <AdminDashboard></AdminDashboard>,
+        errorElement: <ErrorPage></ErrorPage>,
+        children: [
+            {
+                index : true,
+                element: <DashboardHome></DashboardHome>
+            },
+            {
+                path: 'all-website',
+                element: <AllWebsite></AllWebsite>
+            },
+            {
+                path: 'all-lead',
+                element: <AllLead></AllLead>
+            },
+        ]
+    }
 ]);

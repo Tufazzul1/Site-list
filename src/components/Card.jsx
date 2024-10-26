@@ -5,7 +5,7 @@ import useAxios from "../hooks/useAxios";
 import { useState } from "react";
 import useAuth from "../hooks/useAuth";
 
-const Card = ({ website, showHeartIcon, handleDelete, favourite }) => {
+const Card = ({ website, showHeartIcon, handleDelete, favourite, handleDeleteFavourite }) => {
 
     const { _id, image, logo, name, link, category, description } = website;
 
@@ -36,11 +36,14 @@ const Card = ({ website, showHeartIcon, handleDelete, favourite }) => {
                 console.log(response.data.message);
             } else {
                 console.error("Failed to add favorite:", response.data.message);
+                alert("this website already in your favourite")
             }
         } catch (error) {
             console.error("Error adding to favorites:", error.response ? error.response.data : error.message);
+            alert("this website already in your favourite")
         }
     };
+
 
     return (
         <div>
@@ -62,7 +65,7 @@ const Card = ({ website, showHeartIcon, handleDelete, favourite }) => {
                     </div>
                     <div>
                         {showHeartIcon ? (
-                            <button onClick={handleFavourite}>
+                            <button onClick={favourite ? handleDeleteFavourite : handleFavourite}>
                                 <img src={isFavorite || favourite ? "/heart2.png" : "/heart.png"} alt="heart" />
                             </button>
                         ) : (
@@ -107,8 +110,7 @@ Card.propTypes = {
     showHeartIcon: PropTypes.bool,
     favourite: PropTypes.bool,
     handleDelete: PropTypes.func.isRequired,
+    handleDeleteFavourite: PropTypes.func.isRequired,
 };
 
 export default Card;
-
-

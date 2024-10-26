@@ -14,20 +14,21 @@ const Profile = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axiosPublic.get(`/personalSites?email=${user?.email}`);
-                setWebsites(response.data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        fetchData();
-    }, [axiosPublic, user]);
+                const [allWebResponse, favResponse] = await Promise.all([
+                    axiosPublic.get(`/personalSites?email=${user?.email}`),
+                    axiosPublic.get(`/getFavourite?email=${user?.email}`)
+                ]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axiosPublic.get(`/getFavourite?email=${user?.email}`);
-                setFavWebsites(response.data);
+                const favWebsitesSet = new Set(favResponse.data.map(website => website._id));
+
+                const allWebsitesWithFavStatus = allWebResponse.data.map(website => ({
+                    ...website,
+                    isFavorite: favWebsitesSet.has(website._id)
+                }));
+
+                setWebsites(allWebsitesWithFavStatus);
+                setFavWebsites(favResponse.data);
+
             } catch (error) {
                 console.log(error);
             }
@@ -49,6 +50,28 @@ const Profile = () => {
             setWebsites((prevWebsites) => prevWebsites.filter(website => website._id !== websiteId));
         } catch (error) {
             console.error('Error deleting website:', error);
+        }
+    };
+
+    const handleDeleteFavourite = async (websiteId) => {
+        try {
+            const res = await axiosPublic.delete(`/deleteFavourite/${websiteId}`);
+
+            if (res.status === 200) {
+                console.log('Delete successful:', res.data.message);
+
+                // Update the state to reflect the removal from favourites
+                setWebsites((prevWebsites) =>
+                    prevWebsites.map(website => website._id === websiteId ? { ...website, isFavorite: false } : website)
+                );
+                setFavWebsites((prevFavWebsites) =>
+                    prevFavWebsites.filter(favWebsite => favWebsite._id !== websiteId)
+                );
+            } else {
+                console.error('Failed to delete favourite:', res.data.message);
+            }
+        } catch (error) {
+            console.error('Error deleting favourite:', error.response ? error.response.data : error.message);
         }
     };
 
@@ -85,7 +108,7 @@ const Profile = () => {
                         <Card
                             key={website?._id}
                             website={website}
-                            showHeartIcon={false} 
+                            showHeartIcon={false}
                             handleDelete={handleDelete}
                         />
                     ))}
@@ -101,6 +124,7 @@ const Profile = () => {
                             website={website}
                             favourite={true}
                             showHeartIcon={true}
+                            handleDeleteFavourite={handleDeleteFavourite}
                         />
                     ))}
                 </div>

@@ -64,6 +64,13 @@ const Form = ({ data, isUpdate }) => {
                 logo: data.logo || "",
                 description: data.description || "",
             });
+
+            if (data.image) {
+                setSelectedImage(data.image);
+            }
+            if (data.logo) {
+                setSelectedLogo(data.logo);
+            }
         }
     }, [data]);
 
@@ -254,6 +261,8 @@ const Form = ({ data, isUpdate }) => {
                                 <span className="bg-[#292929] px-2 py-1 text-white rounded-md">Choose File</span>
                             </label>
                         </div>
+
+
                     </div>
 
                     <div className="w-full">

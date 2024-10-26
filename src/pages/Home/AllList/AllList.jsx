@@ -2,24 +2,53 @@ import { useEffect, useState } from "react";
 import Card from "../../../components/Card";
 import useAxios from "../../../hooks/useAxios";
 import Button from "../../../shared/Button";
+import useAuth from "../../../hooks/useAuth";
 
 const AllList = () => {
 
     const [websites, setWebsites] = useState([]);
     const axiosPublic = useAxios();
+    const{user} = useAuth();
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const response = await axiosPublic.get(`/allSites`);
+    //             setWebsites(response.data);
+
+    //         } catch (error) {
+    //             console.log(error)
+    //         }
+    //     };
+    //     fetchData();
+    // }, [axiosPublic]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axiosPublic.get(`/allSites`);
-                setWebsites(response.data);
+                const [allWebResponse, favResponse] = await Promise.all([
+                    axiosPublic.get(`/allSites`),
+                    axiosPublic.get(`/getFavourite?email=${user?.email}`)
+                ]);
+
+                const favWebsitesSet = new Set(favResponse.data.map(website => website._id));
+
+                const allWebsitesWithFavStatus = allWebResponse.data.map(website => ({
+                    ...website,
+                    isFavorite: favWebsitesSet.has(website._id)
+                }));
+
+                setWebsites(allWebsitesWithFavStatus);
 
             } catch (error) {
-                console.log(error)
+                console.log(error);
             }
         };
         fetchData();
-    }, [axiosPublic]);
+    }, [axiosPublic, user]);
+
+
+
 
     return (
         <section>

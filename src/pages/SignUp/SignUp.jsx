@@ -1,25 +1,35 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../../shared/Button";
 import useAuth from "../../hooks/useAuth";
+import useAxios from "../../hooks/useAxios";
 
 const SignUp = () => {
 
     const { signInWithGoogle } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
+    const axiosPublic = useAxios();
+
 
     const from = location.state?.from?.pathname || '/';
 
     const handleSocialLogin = () => {
         signInWithGoogle()
             .then(result => {
+                const currentDate = new Date().toISOString();
                 const userInfo = {
                     email: result?.user?.email,
                     name: result?.user?.displayName,
                     photo: result?.user?.photoURL,
+                    date: currentDate,
+                    role: 'user'
                 };
+                axiosPublic.put('/users', userInfo)
+                    .then(res => {
+                        console.log(res.data, "User log in successfully");
+                        navigate(from, { replace: true });
+                    })
                 console.log(userInfo);
-                navigate(from, { replace: true });
             })
 
             .catch(error => {
@@ -43,3 +53,4 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
