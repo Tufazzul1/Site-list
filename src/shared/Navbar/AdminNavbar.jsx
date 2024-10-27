@@ -82,7 +82,7 @@ const AdminNavbar = () => {
                     </li>
                 </ul>
             </div>
-            <div className="navbar-end">
+            <div className="navbar-end gap-3">
                 <Button to="/submit" text="Submit Website" />
 
                 {user ? (

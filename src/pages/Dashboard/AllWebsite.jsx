@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import useAxios from "../../hooks/useAxios";
-
+import FeaturedCard from "../../components/FeaturedCard";
 
 const AllWebsite = () => {
-
     const [websites, setWebsites] = useState([]);
+    const [allWebsites, setAllWebsites] = useState([]);
     const [searchValue, setSearchValue] = useState("");
     const axiosPublic = useAxios();
 
@@ -14,6 +14,7 @@ const AllWebsite = () => {
             try {
                 const response = await axiosPublic.get(`/allSites`);
                 setWebsites(response.data);
+                setAllWebsites(response.data);
             } catch (error) {
                 console.log(error);
             }
@@ -21,19 +22,36 @@ const AllWebsite = () => {
         fetchData();
     }, [axiosPublic]);
 
+    const handleDelete = async (websiteId) => {
+        try {
+            const res = await axiosPublic.delete(`/deleteSite/${websiteId}`);
+            console.log('Delete successful:', res);
+            setWebsites((prevWebsites) => prevWebsites.filter(website => website._id !== websiteId));
+            setAllWebsites((prevWebsites) => prevWebsites.filter(website => website._id !== websiteId));
+        } catch (error) {
+            console.error('Error deleting website:', error);
+        }
+    };
 
     const handleSearch = (e) => {
         const search = e.target.value.toLowerCase();
         setSearchValue(search);
 
-        const filteredData = websites.filter((product) =>
-            product.title.toLowerCase().includes(search)
-        );
+        if (!search) {
+            setWebsites(allWebsites);
+        } else {
+            const filterByTitle = allWebsites.filter((website) =>
+                website.name.toLowerCase().includes(search)
+            );
+            const filterByURL = allWebsites.filter((website) =>
+                website.link.toLowerCase().includes(search)
+            );
 
-        setWebsites(filteredData);
+            // Combine both filtered results, removing duplicates
+            const combinedResults = Array.from(new Set([...filterByTitle, ...filterByURL]));
+            setWebsites(combinedResults);
+        }
     };
-
-    console.log(websites);
 
     return (
         <div>
@@ -45,13 +63,22 @@ const AllWebsite = () => {
                         placeholder="Search by Name or URL"
                         value={searchValue}
                         onChange={handleSearch}
-                        className="bg-[#292929] outline-none text-white placeholder:text-[#434346] px-3 h-[44px] rounded-lg border-none py-2 w-[318px] pr-10"
+                        className="bg-[#292929] outline-none text-white placeholder:text-[#434346] px-3 h-[44px] rounded-lg border py-2 w-[318px] pr-10  border-[#434346]"
                     />
                     <IoSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white text-xl" />
                 </div>
-
             </div>
-
+            <div className="grid grid-cols-1 p-2 md:grid-cols-4 gap-5">
+                {websites.map((website) => (
+                    <FeaturedCard
+                        key={website._id}
+                        website={website}
+                        showHeartIcon={true}
+                        handleDelete={handleDelete}
+                        className="card bg-[#1E1F21]"
+                    />
+                ))}
+            </div>
         </div>
     );
 };

@@ -234,7 +234,7 @@ const formSubmit = async (e) => {
                             />
                             <label
                                 htmlFor="image-input"
-                                className={`w-full h-[45px] rounded-md bg-[#161619] hover:bg-[#434346] hover:text-gray-400 flex items-center justify-between cursor-pointer text-white pl-4 pr-2 ${selectedImage ? 'text-white' : 'text-[#434346]'
+                                className={`w-full min-h-[45px] rounded-md bg-[#161619] hover:bg-[#434346] hover:text-gray-400 flex items-center justify-between cursor-pointer text-white pl-4 pr-2 ${selectedImage ? 'text-white' : 'text-[#434346]'
                                     }`}
                             >
                                 {selectedImage ? selectedImage : "Choose a file..."}
@@ -254,7 +254,7 @@ const formSubmit = async (e) => {
                             />
                             <label
                                 htmlFor="logo-input"
-                                className={`w-full h-[45px] rounded-md bg-[#161619] flex items-center  hover:bg-[#434346] hover:text-gray-400 justify-between cursor-pointer text-white pl-4 pr-2 ${selectedLogo ? 'text-white' : 'text-[#434346]'
+                                className={`w-full min-h-[45px] rounded-md bg-[#161619] flex items-center  hover:bg-[#434346] hover:text-gray-400 justify-between cursor-pointer text-white pl-4 pr-2 ${selectedLogo ? 'text-white' : 'text-[#434346]'
                                     }`}
                             >
                                 {selectedLogo ? selectedLogo : "Choose a file..."}

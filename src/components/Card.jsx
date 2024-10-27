@@ -10,17 +10,17 @@ const Card = ({ website, showHeartIcon, handleDelete, favourite, handleDeleteFav
     const { _id, image, logo, name, link, category, description } = website;
 
     const [isFavorite, setIsFavorite] = useState(website.isFavorite);
-    const axiosInstance = useAxios();
+    const axiosPublic = useAxios();
     const { user } = useAuth();
     const email = user ? user.email : null;
-
+ 
     const handleFavourite = async () => {
         if (!email) {
             console.error("User is not logged in");
             return;
         }
         try {
-            const response = await axiosInstance.post('/favourite', {
+            const response = await axiosPublic.post('/favourite', {
                 email,
                 websiteId: _id,
                 name,

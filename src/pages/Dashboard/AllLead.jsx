@@ -22,13 +22,15 @@ const AllLead = () => {
     }, [axiosPublic]);
 
     const handleDeleteUser = (user) => {
-        axiosPublic.delete(`/users/${user._id}`)
+        axiosPublic.delete(`/deleteUser/${user._id}`)
             .then(res => {
                 if (res.data.deletedCount > 0) {
-                    console.log(res.data);
+                    setUsers((prevUsers) => prevUsers.filter(u => u._id !== user._id));
                 }
-            });
+            })
+            .catch(error => console.log(error));
     };
+
 
     const handleCopy = (email) => {
         navigator.clipboard.writeText(email).then(() => {
@@ -41,7 +43,7 @@ const AllLead = () => {
     const exportToExcel = () => {
         const worksheet = XLSX.utils.json_to_sheet(users);
         const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Users"); 
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Users");
         XLSX.writeFile(workbook, "UsersData.xlsx");
     };
 
@@ -90,12 +92,17 @@ const AllLead = () => {
                                     timeZone: 'UTC'
                                 })}</td>
                                 <td>{user?.role}</td>
+
                                 <td>
-                                    <button className="flex gap-2 items-center relative" onClick={() => handleDeleteUser(user)}>
-                                        <FiCopy onClick={() => handleCopy(user.email)} />
-                                        <FaTrashAlt />
-                                        {copied === user.email && <span className="text-gray-200 mb-10 absolute">Copied!</span>}
-                                    </button>
+                                    <div className="flex gap-2 items-center">
+                                        <button onClick={() => handleCopy(user.email)}>
+                                            <FiCopy />
+                                            {copied === user.email && <span className="text-gray-200 mb-10 absolute">Copied!</span>}
+                                        </button>
+                                        <button onClick={() => handleDeleteUser(user)}>
+                                            <FaTrashAlt></FaTrashAlt>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}
