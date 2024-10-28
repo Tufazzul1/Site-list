@@ -53,7 +53,7 @@ const AllList = () => {
     return (
         <section>
             <div className="flex justify-between items-center mb-5 px-3 text-white">
-                <h3 className="text-xl">Featured List</h3>
+                <h3 className="text-xl">ALL List</h3>
                 <Button to={'/category'} text="View All" />
             </div>
             <div className="grid grid-cols-1 p-2 md:grid-cols-4 gap-5">
