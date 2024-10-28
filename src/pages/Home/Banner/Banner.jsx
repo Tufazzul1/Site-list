@@ -1,22 +1,15 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Button from "../../../shared/Button";
 import useAxios from "../../../hooks/useAxios";
-import useAuth from "../../../hooks/useAuth";
 
 const Banner = () => {
-    const { user } = useAuth();
+
     const [email, setEmail] = useState("");
     const axiosPublic = useAxios();
-    const navigate = useNavigate();
 
     const formSubmit = async (e) => {
         e.preventDefault();
 
-        if (!user) {
-            navigate('/signup');
-            return;
-        }
 
         try {
             const response = await axiosPublic.post("/subscribe", {

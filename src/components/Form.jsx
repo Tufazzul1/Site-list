@@ -7,8 +7,24 @@ import useAxios from "../hooks/useAxios";
 const Form = ({ data, isUpdate }) => {
 
     const [copied, setCopied] = useState(false);
+    // const [userRole, setUserRole] = useState([]);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedLogo, setSelectedLogo] = useState(null);
     const { user } = useAuth();
     const axiosPublic = useAxios();
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const response = await axiosPublic.get(`/users`);
+    //             setUserRole(response.data);
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     };
+    //     fetchData();
+    // }, [axiosPublic]);
+    // console.log(userRole[1]?.role)
 
     const handleCopy = () => {
         navigator.clipboard.writeText("hellosalehahmed01@gmail.com").then(() => {
@@ -16,9 +32,6 @@ const Form = ({ data, isUpdate }) => {
             setTimeout(() => setCopied(false), 2000);
         });
     };
-
-    const [selectedImage, setSelectedImage] = useState(null);
-    const [selectedLogo, setSelectedLogo] = useState(null);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -79,7 +92,7 @@ const Form = ({ data, isUpdate }) => {
         setFormData({ ...formData, [name]: value });
     };
 
-const formSubmit = async (e) => {
+    const formSubmit = async (e) => {
         e.preventDefault();
 
         // Check if both images are selected (for create case)
@@ -128,6 +141,12 @@ const formSubmit = async (e) => {
             };
 
             let response;
+            // if (userRole?.role === "admin") {
+            //     response = await axiosPublic.post(`/adminSubmit`, formDataWithDate);
+            //     if (response.status === 200) {
+            //         console.log("Admin website submited successfully")
+            //     }
+            // }
             if (isUpdate) {
                 response = await axiosPublic.put(`/updateSite/${data._id}`, formDataWithDate);
                 if (response.status === 200) {
@@ -228,7 +247,6 @@ const formSubmit = async (e) => {
                                 type="file"
                                 id="image-input"
                                 name="image"
-                                required
                                 onChange={handleImageChange}
                                 className="hidden"
                             />
@@ -248,7 +266,6 @@ const formSubmit = async (e) => {
                                 type="file"
                                 id="logo-input"
                                 name="logo"
-                                required
                                 onChange={handleLogoChange}
                                 className="hidden"
                             />

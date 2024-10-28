@@ -73,7 +73,6 @@ const AllWebsite = () => {
                     <FeaturedCard
                         key={website._id}
                         website={website}
-                        showHeartIcon={true}
                         handleDelete={handleDelete}
                         className="card bg-[#1E1F21]"
                     />

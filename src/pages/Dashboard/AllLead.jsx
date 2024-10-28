@@ -91,7 +91,7 @@ const AllLead = () => {
                                     hour12: true,
                                     timeZone: 'UTC'
                                 })}</td>
-                                <td>{user?.role}</td>
+                                <td>{user?.title ? user?.title : "Not Found"}</td>
 
                                 <td>
                                     <div className="flex gap-2 items-center">

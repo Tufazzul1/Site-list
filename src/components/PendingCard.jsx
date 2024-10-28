@@ -26,7 +26,7 @@ const PendingCard = ({ website, onApprove, handleDelete }) => {
                     </div>
                     <div>
                         <Link to={`/update/${_id}`}>
-                            <img src="/edit.png" alt="heart" />
+                            <img src="/edit.png" alt="Edit ICon" />
                         </Link>
                     </div>
                 </div>

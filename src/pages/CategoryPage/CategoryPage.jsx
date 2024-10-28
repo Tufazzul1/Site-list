@@ -43,17 +43,17 @@ const CategoryPage = () => {
             <div className="flex">
                 <div className="flex gap-2 items-center">
                     <FilterBtn
-                        className={`hover:bg-[#151518] ${activeCategory === 'All' ? 'bg-white  text-[#151518]' : 'bg-[#292929] text-white'}`}
+                        className={`hover:bg-[#151518] ${activeCategory === 'Education' ? 'bg-white text-[#151518]' : 'bg-[#151518] text-white'}`}
                         text="All"
                         onClick={() => handleSearchByCategory("All")}
                     />
                     <FilterBtn
-                        className={`hover:bg-[#151518] ${activeCategory === 'Featured' ? 'bg-white text-[#151518]' : 'bg-[#292929] text-white'}`}
+                        className={`hover:bg-[#151518] ${activeCategory === 'Education' ? 'bg-white text-[#151518]' : 'bg-[#151518] text-white'}`}
                         text="Featured"
                         onClick={() => handleSearchByCategory("Featured")}
                     />
                     <FilterBtn
-                        className={`hover:bg-[#151518] ${activeCategory === 'New' ? 'bg-white  text-[#151518]' : 'bg-[#292929] text-white'}`}
+                       className={`hover:bg-[#151518] ${activeCategory === 'Education' ? 'bg-white text-[#151518]' : 'bg-[#151518] text-white'}`}
                         text="New"
                         onClick={() => handleSearchByCategory("New")}
                     />

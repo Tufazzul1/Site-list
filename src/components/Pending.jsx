@@ -51,7 +51,6 @@ const Pending = () => {
                         key={website?._id}
                         website={website}
                         onApprove={approveWebsite}
-                        showHeartIcon={true}
                         handleDelete={handleDelete}
                         className="card bg-[#1E1F21]"
                     />
