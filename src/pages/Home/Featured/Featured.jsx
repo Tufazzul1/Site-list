@@ -23,13 +23,13 @@ const Featured = () => {
     }, [axiosPublic]);
 
     return (
-        <section>
+        <section className="mb-8">
             <div className="flex justify-between items-center mb-5 px-3 text-white">
                 <h3 className="text-xl">Featured List</h3>
                 <Button to={'/category'} text="View All" />
             </div>
             <div className="grid grid-cols-1 p-2 md:grid-cols-4 gap-5">
-                {featuredSites.map(website => (
+                {featuredSites.slice(0, 4).map(website => (
                     <Card
                         key={website?._id}
                         website={website}

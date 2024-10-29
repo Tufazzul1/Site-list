@@ -13,6 +13,7 @@ import AdminDashboard from "../layout/AdminDashboard/AdminDashboard";
 import DashboardHome from "../pages/Dashboard/DashboardHome";
 import AllWebsite from "../pages/Dashboard/AllWebsite";
 import AllLead from "../pages/Dashboard/AllLead";
+import AdminRoutes from "./AdminRoute";
 
 
 
@@ -54,20 +55,20 @@ export const router = createBrowserRouter([
     },
     {
         path: "dashboard",
-        element: <AdminDashboard></AdminDashboard>,
+        element: <AdminRoutes><AdminDashboard></AdminDashboard></AdminRoutes>,
         errorElement: <ErrorPage></ErrorPage>,
         children: [
             {
-                index : true,
-                element: <DashboardHome></DashboardHome>
+                index: true,
+                element: <AdminRoutes><DashboardHome></DashboardHome></AdminRoutes>
             },
             {
                 path: 'all-website',
-                element: <AllWebsite></AllWebsite>
+                element: <AdminRoutes><AllWebsite></AllWebsite></AdminRoutes>
             },
             {
                 path: 'all-lead',
-                element: <AllLead></AllLead>
+                element: <AdminRoutes><AllLead></AllLead></AdminRoutes>
             },
         ]
     }
